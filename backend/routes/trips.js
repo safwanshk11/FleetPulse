@@ -6,6 +6,7 @@ const asyncHandler = require('../middleware/asyncHandler');
 const router = express.Router();
 router.use(requireAuth);
 
+
 // GET /api/trips
 router.get('/', asyncHandler(async (req, res) => {
   const { rows } = await pool.query(`

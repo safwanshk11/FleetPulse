@@ -5,7 +5,8 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Vehicles from './pages/Vehicles';
 import Trips from './pages/Trips';
-import { Drivers, Maintenance, FuelExpenses, Analytics } from './pages/Stubs';
+import { Drivers, Maintenance, Analytics } from './pages/Stubs';
+import FuelExpenses from './pages/FuelExpenses';
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
