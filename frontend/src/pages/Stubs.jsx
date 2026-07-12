@@ -20,13 +20,3 @@ export function Drivers() {
 export function Maintenance() {
   return <Stub title="Maintenance" owner="Person A (Fleet & Assets)" />;
 }
-
-export function FuelExpenses() {
-  return <Stub title="Fuel & Expense Management" owner="Person C (Money & Insights)" />;
-}
-
-export function Analytics() {
-  return <Stub title="Reports & Analytics" owner="Person C (Money & Insights)" />;
-}
-
-

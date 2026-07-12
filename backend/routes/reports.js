@@ -11,6 +11,11 @@ async function countWhere(sql, params = []) {
   return rows[0].c;
 }
 
+async function sumWhere(sql, params = []) {
+  const { rows } = await pool.query(sql, params);
+  return Number(rows[0].s) || 0;
+}
+
 // GET /api/reports/dashboard — powers the KPI cards on screen 1
 router.get('/dashboard', asyncHandler(async (req, res) => {
   const activeVehicles = await countWhere(`SELECT COUNT(*)::int AS c FROM vehicles WHERE status != 'Retired'`);
@@ -21,11 +26,25 @@ router.get('/dashboard', asyncHandler(async (req, res) => {
   const driversOnDuty = await countWhere(`SELECT COUNT(*)::int AS c FROM drivers WHERE status = 'On Trip'`);
 
   const totalVehicles = await countWhere(`SELECT COUNT(*)::int AS c FROM vehicles`);
+  const totalDrivers = await countWhere(`SELECT COUNT(*)::int AS c FROM drivers`);
   const onTrip = await countWhere(`SELECT COUNT(*)::int AS c FROM vehicles WHERE status = 'On Trip'`);
   const fleetUtilization = totalVehicles > 0 ? Math.round((onTrip / totalVehicles) * 100) : 0;
 
+  const totalFuelCost = await sumWhere(`SELECT COALESCE(SUM(cost), 0) AS s FROM fuel_logs`);
+  const totalMaintenanceCost = await sumWhere(`SELECT COALESCE(SUM(cost), 0) AS s FROM maintenance_logs`);
+  const totalOperationalCost = totalFuelCost + totalMaintenanceCost;
+
   const recentTripsRes = await pool.query(`
-    SELECT trips.id, vehicles.registration_number, drivers.name AS driver_name, trips.status
+    SELECT
+      trips.id,
+      vehicles.registration_number,
+      drivers.name AS driver_name,
+      trips.status,
+      CASE
+        WHEN trips.status = 'Dispatched' AND trips.planned_distance IS NOT NULL
+        THEN ROUND(trips.planned_distance / 60.0 * 60)
+        ELSE NULL
+      END AS eta_minutes
     FROM trips
     LEFT JOIN vehicles ON vehicles.id = trips.vehicle_id
     LEFT JOIN drivers ON drivers.id = trips.driver_id
@@ -34,7 +53,10 @@ router.get('/dashboard', asyncHandler(async (req, res) => {
 
   res.json({
     activeVehicles, availableVehicles, inMaintenance, activeTrips, pendingTrips,
-    driversOnDuty, fleetUtilization, recentTrips: recentTripsRes.rows
+    driversOnDuty, fleetUtilization,
+    totalVehicles, totalDrivers,
+    totalFuelCost, totalMaintenanceCost, totalOperationalCost,
+    recentTrips: recentTripsRes.rows
   });
 }));
 

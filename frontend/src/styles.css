@@ -421,3 +421,45 @@ h3 { font-size: 15px; }
     gap: 10px;
   }
 }
+
+.fp-th-sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.fp-th-sortable:hover {
+  color: var(--text-secondary);
+}
+
+.fp-th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fp-pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.fp-pagination .fp-btn {
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.fp-pagination .fp-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.fp-pagination-label {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+

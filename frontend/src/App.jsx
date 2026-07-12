@@ -5,9 +5,9 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Vehicles from './pages/Vehicles';
 import Trips from './pages/Trips';
-import Drivers from './pages/Drivers';
-import Maintenance from './pages/Maintenance'; // Imported your new page
-import { FuelExpenses, Analytics } from './pages/Stubs'; // Removed Maintenance from Stubs
+import { Drivers, Maintenance } from './pages/Stubs';
+import FuelExpenses from './pages/FuelExpenses';
+import Analytics from './pages/Analytics';
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
