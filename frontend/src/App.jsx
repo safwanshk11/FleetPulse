@@ -6,7 +6,8 @@ import Dashboard from './pages/Dashboard';
 import Vehicles from './pages/Vehicles';
 import Trips from './pages/Trips';
 import Drivers from './pages/Drivers';
-import { Maintenance, FuelExpenses, Analytics } from './pages/Stubs';
+import Maintenance from './pages/Maintenance'; // Imported your new page
+import { FuelExpenses, Analytics } from './pages/Stubs'; // Removed Maintenance from Stubs
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
