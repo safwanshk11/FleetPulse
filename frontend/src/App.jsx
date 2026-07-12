@@ -4,10 +4,12 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Vehicles from './pages/Vehicles';
+import Drivers from './pages/Drivers';
 import Trips from './pages/Trips';
+import Maintenance from './pages/Maintenance';
 import FuelExpenses from './pages/FuelExpenses';
 import Analytics from './pages/Analytics';
-import maintenance from './pages/Maintenance';
+import Settings from './pages/Settings';
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
@@ -38,6 +40,7 @@ export default function App() {
             <Route path="maintenance" element={<Maintenance />} />
             <Route path="fuel-expenses" element={<FuelExpenses />} />
             <Route path="analytics" element={<Analytics />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
