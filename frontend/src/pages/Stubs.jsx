@@ -17,10 +17,6 @@ export function Drivers() {
   return <Stub title="Drivers & Safety Profiles" owner="Person B (People & Trips)" />;
 }
 
-export function Trips() {
-  return <Stub title="Trip Dispatcher" owner="Person B (People & Trips)" />;
-}
-
 export function Maintenance() {
   return <Stub title="Maintenance" owner="Person A (Fleet & Assets)" />;
 }
@@ -32,3 +28,5 @@ export function FuelExpenses() {
 export function Analytics() {
   return <Stub title="Reports & Analytics" owner="Person C (Money & Insights)" />;
 }
+
+
