@@ -384,3 +384,40 @@ h3 { font-size: 15px; }
   font-size: 11px;
   color: var(--text-muted);
 }
+
+
+.fp-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.fp-kpi-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.fp-kpi-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fp-card[data-status="Available"] .fp-kpi-icon,
+.fp-card[data-status="Completed"] .fp-kpi-icon { color: var(--status-available); }
+.fp-card[data-status="On Trip"] .fp-kpi-icon,
+.fp-card[data-status="Dispatched"] .fp-kpi-icon { color: var(--status-ontrip); }
+.fp-card[data-status="In Shop"] .fp-kpi-icon,
+.fp-card[data-status="Active"] .fp-kpi-icon { color: var(--status-inshop); }
+.fp-card[data-status="Retired"] .fp-kpi-icon,
+.fp-card[data-status="Suspended"] .fp-kpi-icon,
+.fp-card[data-status="Cancelled"] .fp-kpi-icon { color: var(--status-retired); }
+
+@media (max-width: 480px) {
+  .fp-kpi-row {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+}

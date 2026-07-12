@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import client from '../api/client';
+import { Truck, CheckCircle2, Wrench, Route, Clock, UserCheck, Gauge } from 'lucide-react';
 
 const STATUS_CLASS = {
   Draft: 'fp-row-draft',
@@ -18,24 +19,27 @@ export default function Dashboard() {
   if (!data) return <p style={{ color: 'var(--text-secondary)' }}>Loading dashboard...</p>;
 
   const kpis = [
-    ['Active vehicles', data.activeVehicles, null],
-    ['Available vehicles', data.availableVehicles, 'Available'],
-    ['In maintenance', data.inMaintenance, 'In Shop'],
-    ['Active trips', data.activeTrips, 'Dispatched'],
-    ['Pending trips', data.pendingTrips, null],
-    ['Drivers on duty', data.driversOnDuty, 'On Trip'],
-    ['Fleet utilization', `${data.fleetUtilization}%`, null]
+    ['Active vehicles', data.activeVehicles, null, Truck],
+    ['Available vehicles', data.availableVehicles, 'Available', CheckCircle2],
+    ['In maintenance', data.inMaintenance, 'In Shop', Wrench],
+    ['Active trips', data.activeTrips, 'Dispatched', Route],
+    ['Pending trips', data.pendingTrips, null, Clock],
+    ['Drivers on duty', data.driversOnDuty, 'On Trip', UserCheck],
+    ['Fleet utilization', `${data.fleetUtilization}%`, null, Gauge]
   ];
 
   return (
     <div>
       <h2 style={{ marginBottom: 20 }}>Dashboard</h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 36 }}>
-        {kpis.map(([label, value, status]) => (
-          <div key={label} className="fp-card" data-status={status || undefined}>
-            <div className="fp-kpi-label">{label}</div>
-            <div className="fp-kpi-value">{value}</div>
+      <div className="fp-kpi-row">
+        {kpis.map(([label, value, status, Icon]) => (
+          <div key={label} className="fp-card fp-kpi-card" data-status={status || undefined}>
+            <Icon className="fp-kpi-icon" size={18} strokeWidth={2} />
+            <div>
+              <div className="fp-kpi-label">{label}</div>
+              <div className="fp-kpi-value">{value}</div>
+            </div>
           </div>
         ))}
       </div>
