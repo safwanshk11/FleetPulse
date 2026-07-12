@@ -1,0 +1,386 @@
+/* styles.css — FleetPulse design system
+   Direction: dispatch control room. Charcoal-navy base, highway-amber accent,
+   signal colors borrowed from traffic conventions. Condensed display type
+   reads like DOT signage; mono type carries registration numbers, license
+   numbers, and timestamps — the "manifest" data.
+
+   Signature element: the status rail — a 4px colored left edge on every
+   card and table row, keyed consistently to status across all screens.
+*/
+
+:root {
+  --bg: #14181d;
+  --surface: #1b2129;
+  --surface-raised: #212a33;
+  --border: #2a323c;
+  --border-strong: #3a4552;
+
+  --text-primary: #edeff3;
+  --text-secondary: #97a1ac;
+  --text-muted: #66707b;
+
+  --accent: #e8a33d;
+  --accent-strong: #f2b85c;
+  --accent-dim: #4a3a20;
+
+  --status-available: #45b26b;
+  --status-ontrip: #4c8dff;
+  --status-inshop: #e8a33d;
+  --status-retired: #e5484d;
+  --status-suspended: #e5484d;
+  --status-offduty: #6b7480;
+  --status-draft: #97a1ac;
+  --status-dispatched: #4c8dff;
+  --status-completed: #45b26b;
+  --status-cancelled: #e5484d;
+  --status-active: #e8a33d;
+  --status-closed: #45b26b;
+
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Faint dot-grid, evokes a route map. Very low opacity — texture, not decoration. */
+.fp-app {
+  min-height: 100vh;
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: -12px -12px;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+h1 { font-size: 22px; }
+h2 { font-size: 19px; }
+h3 { font-size: 15px; }
+
+.fp-mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+}
+
+/* ---- Layout shell ---- */
+
+.fp-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.fp-sidebar {
+  width: 212px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 22px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.fp-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0 20px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+.fp-logo-mark {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.fp-logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.fp-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  gap: 1px;
+}
+
+.fp-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: color 0.12s, background 0.12s, border-color 0.12s;
+}
+
+.fp-nav-link:hover {
+  color: var(--text-primary);
+  background: var(--surface-raised);
+}
+
+.fp-nav-link.active {
+  color: var(--accent-strong);
+  border-left-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.fp-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fp-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fp-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--status-available);
+  box-shadow: 0 0 0 3px rgba(69, 178, 107, 0.15);
+  animation: fp-pulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-live-dot { animation: none; }
+}
+
+@keyframes fp-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.fp-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fp-user-name {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.fp-role-pill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  color: var(--accent-strong);
+}
+
+.fp-logout {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
+}
+
+.fp-logout:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.fp-content {
+  padding: 28px;
+  flex: 1;
+}
+
+/* ---- Cards with status rail ---- */
+
+.fp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.fp-card[data-status="Available"],
+.fp-card[data-status="Completed"] { border-left-color: var(--status-available); }
+.fp-card[data-status="On Trip"],
+.fp-card[data-status="Dispatched"] { border-left-color: var(--status-ontrip); }
+.fp-card[data-status="In Shop"],
+.fp-card[data-status="Active"] { border-left-color: var(--status-inshop); }
+.fp-card[data-status="Retired"],
+.fp-card[data-status="Suspended"],
+.fp-card[data-status="Cancelled"] { border-left-color: var(--status-retired); }
+
+.fp-kpi-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.fp-kpi-value {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  margin-top: 4px;
+  color: var(--text-primary);
+}
+
+/* ---- Tables ---- */
+
+.fp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.fp-table th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.fp-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.fp-table tr {
+  border-left: 3px solid transparent;
+}
+
+.fp-row-available, .fp-row-completed { border-left-color: var(--status-available); }
+.fp-row-ontrip, .fp-row-dispatched { border-left-color: var(--status-ontrip); }
+.fp-row-inshop, .fp-row-active { border-left-color: var(--status-inshop); }
+.fp-row-retired, .fp-row-suspended, .fp-row-cancelled { border-left-color: var(--status-retired); }
+.fp-row-draft, .fp-row-offduty { border-left-color: var(--border-strong); }
+
+.fp-badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid transparent;
+}
+
+.fp-badge-available, .fp-badge-completed { color: var(--status-available); background: rgba(69, 178, 107, 0.12); border-color: rgba(69, 178, 107, 0.3); }
+.fp-badge-ontrip, .fp-badge-dispatched { color: var(--status-ontrip); background: rgba(76, 141, 255, 0.12); border-color: rgba(76, 141, 255, 0.3); }
+.fp-badge-inshop, .fp-badge-active { color: var(--status-inshop); background: rgba(232, 163, 61, 0.12); border-color: rgba(232, 163, 61, 0.3); }
+.fp-badge-retired, .fp-badge-suspended, .fp-badge-cancelled { color: var(--status-retired); background: rgba(229, 72, 77, 0.12); border-color: rgba(229, 72, 77, 0.3); }
+.fp-badge-draft, .fp-badge-offduty { color: var(--text-secondary); background: rgba(151, 161, 172, 0.1); border-color: var(--border-strong); }
+
+/* ---- Buttons + inputs ---- */
+
+.fp-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: filter 0.12s;
+}
+
+.fp-btn:hover { filter: brightness(1.1); }
+
+.fp-btn-primary {
+  background: var(--accent);
+  color: #1b1204;
+}
+
+.fp-btn-ghost {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.fp-btn-ghost:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+
+.fp-input {
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 9px 11px;
+  border-radius: 5px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+.fp-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.fp-input::placeholder { color: var(--text-muted); }
+
+.fp-error {
+  color: var(--status-retired);
+  font-size: 12.5px;
+}
+
+.fp-rule {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
